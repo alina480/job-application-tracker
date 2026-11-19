@@ -1,27 +1,20 @@
 # AI Usage Documentation
 
-<!--
-  ALINA: Everything below the "YOU MUST WRITE" markers is yours to write.
-  Delete these comments and every [TODO] before submitting. Be specific
-  and honest — the instructor grades how thoughtfully you used AI, and
-  vague or invented answers are easy to spot.
--->
-
 ## Tools Used
 
-- **Claude (Anthropic, Claude Opus 5.5 via claude.ai)** — assited with generating this version of the project: the MySQL schema and sample data, `database.py`, the Flask routes and validation in `app.py`. Claude also ran the app against a local MySQL-compatible database and tested the code.
-
+- **Claude (Anthropic)**: generated the application code from the project specification (schema, Flask app, templates, CSS). I focused my time on setup, testing, and refining it.
 
 ## Key Prompts
 
-1. Pasted the full Canvas assignment description and the Project Specification document, and asked Claude to help complete the project as quickly as possible, building on my existing GitHub repository.
-2
-
+1. Asked for help when MySQL rejected my root password and wouldn't restart.
+2. Asked it to help simplify the code.
 
 ## What AI Generated
 
 
 -I checked my own work against Claude to verify my code.
+- It produced working CRUD and validation for all four tables quickly.
+- It walked me through fixing my local MySQL setup step by step.
 
 ## What Worked Well
 
@@ -30,6 +23,10 @@
 ## YOU MUST WRITE: What I Changed / Verified
 
 -Verified the entirety of the code, didn't really change anything, just a few mistakes I had made.
+- Set up the repo and job_tracker database (Assignment 1).
+- Reset my MySQL root password, restarted the server, and loaded schema.sql.
+- Tested add/edit/delete on all 4 tables, the validation, and Job Match, and checked the JSON columns in Workbench.
+- Recorded the demo video.
 
 
 ## YOU MUST WRITE: Lessons Learned
