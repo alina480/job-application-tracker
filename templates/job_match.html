@@ -1,48 +1,31 @@
 {% extends "base.html" %}
 {% block title %}Job Match{% endblock %}
 {% block content %}
-<div class="page-head">
-    <h1>Job Match</h1>
-</div>
+<h1>Job Match</h1>
 
-<form method="get" class="card form match-form">
-    <label>Your skills <span class="hint">(comma-separated)</span>
+<form method="get" class="card form">
+    <label>Your skills (comma-separated)
         <input type="text" name="skills" placeholder="Python, SQL, Flask" value="{{ skills_text }}" required autofocus>
     </label>
     <button class="btn" type="submit">Find Matches</button>
 </form>
 
 {% if results is not none %}
-    <p class="muted">Your skills:
-        {% for s in user_skills %}<span class="chip">{{ s }}</span>{% endfor %}
-    </p>
-
     {% if results %}
-    <ol class="match-list">
+    <div class="card">
+        <h2>Matching Jobs</h2>
+        <ol>
         {% for r in results %}
-        <li class="card match">
-            <div class="match-head">
-                <div>
-                    <a class="match-title" href="{{ url_for('job_detail', job_id=r.job.job_id) }}">{{ r.job.job_title }}</a>
-                    <span class="muted">at {{ r.job.company_name }}</span>
-                </div>
-                <div class="match-score score-{{ 'high' if r.percent >= 75 else ('mid' if r.percent >= 40 else 'low') }}">
-                    {{ r.percent }}%
-                    <span class="score-sub">({{ r.matched|length }}/{{ r.job.requirements|length }} skills)</span>
-                </div>
-            </div>
-            <div class="bar"><div class="bar-fill score-bg-{{ 'high' if r.percent >= 75 else ('mid' if r.percent >= 40 else 'low') }}" style="width: {{ r.percent }}%"></div></div>
-            <p><strong>Matched:</strong>
-                {% for s in r.matched %}<span class="chip chip-yes">{{ s }}</span>{% else %}<span class="muted">none</span>{% endfor %}
-            </p>
-            <p><strong>Missing:</strong>
-                {% for s in r.missing %}<span class="chip chip-no">{{ s }}</span>{% else %}<span class="muted">none — you meet every listed requirement</span>{% endfor %}
-            </p>
-        </li>
+            <li class="match">
+                <a href="{{ url_for('job_detail', job_id=r.job.job_id) }}">{{ r.job.job_title }}</a> at {{ r.job.company_name }}
+                - <strong>{{ r.percent }}%</strong> ({{ r.matched|length }}/{{ r.job.requirements|length }} skills)
+                {% if r.missing %}<br><span class="muted">Missing: {{ r.missing|join(', ') }}</span>{% endif %}
+            </li>
         {% endfor %}
-    </ol>
+        </ol>
+    </div>
     {% else %}
-        <p class="empty">No jobs have required skills listed yet. Add skills to a job to use Job Match.</p>
+        <p class="muted">No jobs have required skills listed yet.</p>
     {% endif %}
 {% endif %}
 {% endblock %}

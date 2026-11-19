@@ -1,55 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-<div class="page-head">
-    <h1>Dashboard</h1>
-    <a class="btn" href="{{ url_for('add_application') }}">+ New Application</a>
-</div>
+<h1>Dashboard</h1>
 
 <section class="stats">
     <a class="stat" href="{{ url_for('companies') }}"><span class="num">{{ stats.counts.companies }}</span><span class="label">Companies</span></a>
     <a class="stat" href="{{ url_for('jobs') }}"><span class="num">{{ stats.counts.jobs }}</span><span class="label">Jobs</span></a>
     <a class="stat" href="{{ url_for('applications') }}"><span class="num">{{ stats.counts.applications }}</span><span class="label">Applications</span></a>
     <a class="stat" href="{{ url_for('contacts') }}"><span class="num">{{ stats.counts.contacts }}</span><span class="label">Contacts</span></a>
-    <div class="stat"><span class="num">{{ stats.response_rate }}%</span><span class="label">Response rate</span></div>
 </section>
-
-<div class="grid-2">
-    <section class="card">
-        <h2>Applications by status</h2>
-        {% if stats.by_status %}
-            {% set total = stats.counts.applications %}
-            {% for row in stats.by_status %}
-                <div class="bar-row">
-                    <a class="bar-label" href="{{ url_for('applications', status=row.status) }}">
-                        <span class="badge status-{{ row.status|lower }}">{{ row.status }}</span>
-                    </a>
-                    <div class="bar"><div class="bar-fill status-bg-{{ row.status|lower }}" style="width: {{ (row.total / total * 100)|round|int }}%"></div></div>
-                    <span class="bar-count">{{ row.total }}</span>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p class="muted">No applications yet.</p>
-        {% endif %}
-    </section>
-
-    <section class="card">
-        <h2>Upcoming interviews</h2>
-        {% if stats.upcoming %}
-            <ul class="plain-list">
-            {% for a in stats.upcoming %}
-                <li>
-                    <strong>{{ a.interview_data.interview_date }}</strong> &middot;
-                    <a href="{{ url_for('application_detail', application_id=a.application_id) }}">{{ a.job_title }} at {{ a.company_name }}</a>
-                    {% if a.interview_data.interview_type %}<span class="muted">({{ a.interview_data.interview_type }})</span>{% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p class="muted">No interviews scheduled.</p>
-        {% endif %}
-    </section>
-</div>
 
 <section class="card">
     <h2>Recent applications</h2>
