@@ -12,8 +12,7 @@
 ## What AI Generated
 
 
--I checked my own work against Claude to verify my code.
-- It produced working CRUD and validation for all four tables quickly.
+- I checked my own work against Claude to verify my code.
 - It walked me through fixing my local MySQL setup step by step.
 
 ## What Worked Well
@@ -22,7 +21,7 @@
 
 ## YOU MUST WRITE: What I Changed / Verified
 
--Verified the entirety of the code, didn't really change anything, just a few mistakes I had made.
+- Verified the entirety of the code and a few mistakes i had done.
 - Set up the repo and job_tracker database (Assignment 1).
 - Reset my MySQL root password, restarted the server, and loaded schema.sql.
 - Tested add/edit/delete on all 4 tables, the validation, and Job Match, and checked the JSON columns in Workbench.
