@@ -6,7 +6,7 @@ Built for COP4751 (Advanced Database) with **MySQL**, **Python / Flask**, and **
 
 ## Features
 
-- **Dashboard** — totals for every table, response rate, applications-by-status chart, upcoming interviews, recent applications
+- **Dashboard** — totals for every table and the most recent applications
 - **Full CRUD on all four tables** — Companies, Jobs, Applications, Contacts (list, detail view, add, edit, delete with confirmation)
 - **Server-side validation** — required fields, max lengths, valid URLs/emails/phones/dates, salary min ≤ max, duplicate company names, valid foreign keys
 - **JSON columns**
