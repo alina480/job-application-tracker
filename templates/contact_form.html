@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Contact{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ action }} Contact</h1>
+    <a class="btn btn-secondary" href="{{ url_for('contacts') }}">Cancel</a>
+</div>
+
+<form method="post" class="card form">
+    <div class="row">
+        <label>Name <span class="req">*</span>
+            <input type="text" name="contact_name" maxlength="100" required value="{{ v(contact, 'contact_name') }}">
+        </label>
+        <label>Company
+            <select name="company_id">
+                <option value="">-- No company --</option>
+                {% for c in companies %}
+                    <option value="{{ c.company_id }}" {{ 'selected' if v(contact, 'company_id')|string == c.company_id|string }}>{{ c.company_name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div class="row">
+        <label>Title
+            <input type="text" name="title" maxlength="100" placeholder="e.g. Recruiter" value="{{ v(contact, 'title') }}">
+        </label>
+        <label>Email
+            <input type="email" name="email" maxlength="100" value="{{ v(contact, 'email') }}">
+        </label>
+    </div>
+    <div class="row">
+        <label>Phone
+            <input type="tel" name="phone" maxlength="20" placeholder="305-555-0100" value="{{ v(contact, 'phone') }}">
+        </label>
+        <label>LinkedIn URL
+            <input type="url" name="linkedin_url" maxlength="200" placeholder="https://www.linkedin.com/in/..." value="{{ v(contact, 'linkedin_url') }}">
+        </label>
+    </div>
+    <label>Notes
+        <textarea name="notes" rows="4">{{ v(contact, 'notes') }}</textarea>
+    </label>
+    <button class="btn" type="submit">Save Contact</button>
+</form>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ job.job_title }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ job.job_title }} <span class="subtle">at <a href="{{ url_for('company_detail', company_id=job.company_id) }}">{{ job.company_name }}</a></span></h1>
+    <div class="actions">
+        <a class="btn btn-secondary" href="{{ url_for('edit_job', job_id=job.job_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete_job', job_id=job.job_id) }}"
+              onsubmit="return confirm('Delete {{ job.job_title|e }}? This also deletes its applications.');">
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<section class="card details">
+    <dl>
+        <dt>Job type</dt><dd>{{ job.job_type or '—' }}</dd>
+        <dt>Salary</dt>
+        <dd>{% if job.salary_min or job.salary_max %}
+                {{ "${:,}".format(job.salary_min) if job.salary_min is not none else '?' }} – {{ "${:,}".format(job.salary_max) if job.salary_max is not none else '?' }}
+            {% else %}—{% endif %}</dd>
+        <dt>Date posted</dt><dd>{{ job.date_posted or '—' }}</dd>
+        <dt>Posting</dt><dd>{% if job.job_url %}<a href="{{ job.job_url }}" target="_blank" rel="noopener">{{ job.job_url }}</a>{% else %}—{% endif %}</dd>
+        <dt>Required skills</dt>
+        <dd>{% for s in job.requirements %}<span class="chip">{{ s }}</span>{% else %}—{% endfor %}</dd>
+    </dl>
+</section>
+
+<section class="card">
+    <div class="section-head">
+        <h2>Applications ({{ applications|length }})</h2>
+        <a class="btn btn-small" href="{{ url_for('add_application', job_id=job.job_id) }}">+ Apply / Log Application</a>
+    </div>
+    {% if applications %}
+    <table>
+        <thead><tr><th>Date</th><th>Status</th><th>Resume</th><th></th></tr></thead>
+        <tbody>
+        {% for a in applications %}
+            <tr>
+                <td>{{ a.application_date }}</td>
+                <td><span class="badge status-{{ a.status|lower }}">{{ a.status }}</span></td>
+                <td>{{ a.resume_version or '—' }}</td>
+                <td><a href="{{ url_for('application_detail', application_id=a.application_id) }}">View</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}<p class="muted">You haven't applied to this job yet.</p>{% endif %}
+</section>
+{% endblock %}

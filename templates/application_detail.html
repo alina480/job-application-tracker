@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Application #{{ app_row.application_id }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ app_row.job_title }} <span class="subtle">at <a href="{{ url_for('company_detail', company_id=app_row.company_id) }}">{{ app_row.company_name }}</a></span></h1>
+    <div class="actions">
+        <a class="btn btn-secondary" href="{{ url_for('edit_application', application_id=app_row.application_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete_application', application_id=app_row.application_id) }}"
+              onsubmit="return confirm('Delete this application?');">
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+    </div>
+</div>
+
+<section class="card details">
+    <dl>
+        <dt>Status</dt><dd><span class="badge status-{{ app_row.status|lower }}">{{ app_row.status }}</span></dd>
+        <dt>Applied on</dt><dd>{{ app_row.application_date }}</dd>
+        <dt>Resume version</dt><dd>{{ app_row.resume_version or '—' }}</dd>
+        <dt>Cover letter sent</dt><dd>{{ 'Yes' if app_row.cover_letter_sent else 'No' }}</dd>
+        <dt>Job posting</dt><dd><a href="{{ url_for('job_detail', job_id=app_row.job_id) }}">View job</a></dd>
+    </dl>
+</section>
+
+<section class="card details">
+    <h2>Interview details</h2>
+    {% set iv = app_row.interview_data %}
+    {% if iv %}
+    <dl>
+        <dt>Date</dt><dd>{{ iv.interview_date or '—' }}</dd>
+        <dt>Type</dt><dd>{{ iv.interview_type or '—' }}</dd>
+        <dt>Interviewer</dt><dd>{{ iv.interviewer or '—' }}</dd>
+        <dt>Round</dt><dd>{{ iv.round or '—' }}</dd>
+        <dt>Notes</dt><dd class="pre">{{ iv.notes or '—' }}</dd>
+    </dl>
+    {% else %}
+        <p class="muted">No interview recorded yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

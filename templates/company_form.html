@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Company{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ action }} Company</h1>
+    <a class="btn btn-secondary" href="{{ url_for('companies') }}">Cancel</a>
+</div>
+
+<form method="post" class="card form">
+    <label>Company name <span class="req">*</span>
+        <input type="text" name="company_name" maxlength="100" required value="{{ v(company, 'company_name') }}">
+    </label>
+    <div class="row">
+        <label>Industry
+            <input type="text" name="industry" maxlength="50" value="{{ v(company, 'industry') }}">
+        </label>
+        <label>Website
+            <input type="url" name="website" maxlength="200" placeholder="https://" value="{{ v(company, 'website') }}">
+        </label>
+    </div>
+    <div class="row">
+        <label>City
+            <input type="text" name="city" maxlength="50" value="{{ v(company, 'city') }}">
+        </label>
+        <label>State
+            <input type="text" name="state" maxlength="50" value="{{ v(company, 'state') }}">
+        </label>
+    </div>
+    <label>Notes
+        <textarea name="notes" rows="4">{{ v(company, 'notes') }}</textarea>
+    </label>
+    <button class="btn" type="submit">Save Company</button>
+</form>
+{% endblock %}

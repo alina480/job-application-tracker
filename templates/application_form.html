@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Application{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>{{ action }} Application</h1>
+    <a class="btn btn-secondary" href="{{ url_for('applications') }}">Cancel</a>
+</div>
+
+{% if not jobs %}
+    <p class="empty">You need to <a href="{{ url_for('add_job') }}">add a job</a> before logging an application.</p>
+{% else %}
+<form method="post" class="card form">
+    <label>Job <span class="req">*</span>
+        <select name="job_id" required>
+            <option value="">-- Select a job --</option>
+            {% for j in jobs %}
+                <option value="{{ j.job_id }}" {{ 'selected' if v(app_row, 'job_id')|string == j.job_id|string }}>{{ j.job_title }} — {{ j.company_name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <div class="row">
+        <label>Application date <span class="req">*</span>
+            <input type="date" name="application_date" required value="{{ v(app_row, 'application_date') }}">
+        </label>
+        <label>Status <span class="req">*</span>
+            <select name="status" required>
+                {% for s in statuses %}
+                    <option value="{{ s }}" {{ 'selected' if v(app_row, 'status') == s }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <div class="row">
+        <label>Resume version
+            <input type="text" name="resume_version" maxlength="50" placeholder="e.g. v3-software" value="{{ v(app_row, 'resume_version') }}">
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" name="cover_letter_sent" {{ 'checked' if v(app_row, 'cover_letter_sent') == 'on' }}>
+            Cover letter sent
+        </label>
+    </div>
+
+    <fieldset>
+        <legend>Interview details <span class="hint">(optional — saved as JSON)</span></legend>
+        <div class="row">
+            <label>Interview date
+                <input type="date" name="interview_date" value="{{ v(app_row, 'interview_date') }}">
+            </label>
+            <label>Interview type
+                <select name="interview_type">
+                    <option value="">-- Select --</option>
+                    {% for t in interview_types %}
+                        <option value="{{ t }}" {{ 'selected' if v(app_row, 'interview_type') == t }}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+        <div class="row">
+            <label>Interviewer
+                <input type="text" name="interviewer" value="{{ v(app_row, 'interviewer') }}">
+            </label>
+            <label>Round
+                <input type="number" name="interview_round" min="1" step="1" value="{{ v(app_row, 'interview_round') }}">
+            </label>
+        </div>
+        <label>Interview notes
+            <textarea name="interview_notes" rows="3">{{ v(app_row, 'interview_notes') }}</textarea>
+        </label>
+    </fieldset>
+
+    <button class="btn" type="submit">Save Application</button>
+</form>
+{% endif %}
+{% endblock %}

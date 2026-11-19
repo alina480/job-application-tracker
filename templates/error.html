@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Error{% endblock %}
+{% block content %}
+<div class="card">
+    <h1>Something went wrong</h1>
+    <p class="flash flash-error">{{ error }}</p>
+    <p class="muted">If this is a database connection error, check that MySQL is running, that you ran
+        <code>schema.sql</code>, and that your <code>DB_PASSWORD</code> is set (see README.md).</p>
+    <a class="btn" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</div>
+{% endblock %}
